@@ -1,5 +1,5 @@
 <template>
-  <div class="account">
+  <div>
     <router-view></router-view>
   </div>
 </template>
@@ -14,6 +14,5 @@ export default {
 .account {
   width: 100%;
   height: 100%;
-  padding: 20px;
 }
 </style>

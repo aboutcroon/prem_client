@@ -3,8 +3,12 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
-import './common/plugins/antd'
-import './assets/style/antd.less'
+import '@/common/plugins/antd'
+import '@/common/plugins/veevalidate'
+
+import '@/assets/fonts/iconfont.css'
+import '@/assets/style/index.less'
+import '@/assets/style/antd.less'
 
 Vue.config.productionTip = false
 

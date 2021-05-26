@@ -1,7 +1,9 @@
 <template>
-  <div class="index">
+  <div class="index flex-column">
     <rise-head></rise-head>
-    <router-view></router-view>
+    <div style="height: 100%; padding: 20px 30px;">
+      <router-view></router-view>
+    </div>
     <rise-foot></rise-foot>
   </div>
 </template>
@@ -19,5 +21,10 @@ export default {
 </script>
 
 <style>
-
+.index {
+  min-width: 1440px;
+  min-height: 705px;
+  height: 100%;
+  background: #F4F5F5;
+}
 </style>
