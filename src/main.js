@@ -10,6 +10,11 @@ import '@/assets/fonts/iconfont.css'
 import '@/assets/style/index.less'
 import '@/assets/style/antd.less'
 
+if (process.env.NODE_ENV !== 'production') {
+  const modules = require.context('../mock', true, /\.js$/)
+  modules.keys().forEach(m => modules(m))
+}
+
 Vue.config.productionTip = false
 
 new Vue({

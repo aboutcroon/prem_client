@@ -44,7 +44,7 @@
       <div class="item flex-center">
         My Favs
       </div>
-      <a-input placeholder="Search" style="width: 180px; height: 25px; margin-left: 23px;"></a-input>
+      <a-input placeholder="Search" style="width: 300px; height: 25px; margin-left: 23px;"></a-input>
       <div class="item flex-center" style="background: #8d2929;">
         New Post
       </div>

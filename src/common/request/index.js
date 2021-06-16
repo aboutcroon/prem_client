@@ -6,10 +6,21 @@ for (const i in api) {
   request[i] = function (option = {}) {
     // 只取出接口定义时的初始参数中的 url 和 methods
     const initOption = api[i]
+    let mock = false
     const axiosOption = {
       method: initOption.method,
       url: initOption.url,
       headers: {}
+    }
+
+    // 处理mock
+    if ('mock' in initOption) {
+      mock = initOption.mock
+    } else {
+      mock = process.env.NODE_ENV === 'mock'
+    }
+    if (mock) {
+      axiosOption.url = '/mock' + axiosOption.url
     }
 
     // 将 option 中的其余参数放入 axiosOption

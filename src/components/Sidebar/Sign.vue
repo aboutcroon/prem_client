@@ -1,13 +1,13 @@
 <template>
   <div class="sign">
-    <a-card hoverable>
+    <div>
       <div class="title flex-y">
-        <span style="margin-left: 10px;">Sign</span>
+        <span>Sign</span>
       </div>
       <div class="content">
         111
       </div>
-    </a-card>
+    </div>
   </div>
 </template>
 
@@ -20,8 +20,10 @@ export default {
 <style lang="less" scoped>
 .sign {
   background: #fff;
-  border-radius: 4px;
+  border-radius: 8px;
+  padding: 10px;
   margin-bottom: 10px;
+  box-shadow: 0px 1px 2px #dfe2e6, 0px 2px 8px #dfe2e6;
 
   .title {
     height: 30px;
@@ -38,7 +40,7 @@ export default {
   }
 
   .content {
-    padding: 10px;
+    margin-top: 10px;
   }
 }
 </style>
