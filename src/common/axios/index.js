@@ -13,6 +13,10 @@ const instance = axios.create({
 })
 
 instance.interceptors.request.use((config) => {
+  if (localStorage.getItem('tokenInfo')) {
+    const { token } = JSON.parse(localStorage.getItem('tokenInfo'))
+    config.headers.Authorization = 'Bearer ' + token
+  }
   return config
 }, (err) => {
   // Do something with request error

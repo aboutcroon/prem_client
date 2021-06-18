@@ -3,7 +3,7 @@
     <div class="container">
       <section class="header">
         <div class="box">
-          <i class="iconfont icon-sun" style="font-size: 48px; color: #C53C26;"></i>
+          <img src="../../assets/images/icon.png" style="width: 60px; height: 60px" alt="logo">
         </div>
         <div class="box">
           <span style="font-size: 24px">Sign in to Prem</span>
@@ -18,9 +18,9 @@
       <section class="form-box">
         <validation-observer ref="observer" v-slot="{ validate }">
           <a-form :form="loginForm" class="login-form">
-            <validation-provider name="username" rules="required|email" v-slot="{ errors }">
+            <validation-provider name="username" rules="required" v-slot="{ errors }">
               <a-form-item>
-                Phone number or email address
+                Username or email address
                 <a-input v-model="loginForm.username"></a-input>
                 <span class="error">{{ errors[0] }}</span>
               </a-form-item>
@@ -92,15 +92,7 @@ export default {
     ...mapState(['sid'])
   },
   mounted () {
-    let sid = ''
-    if (localStorage.getItem('sid')) {
-      sid = localStorage.getItem('sid')
-    } else {
-      sid = uuidv4()
-      localStorage.setItem('sid', sid)
-    }
-    this.$store.commit('setSid', sid)
-    this.getCaptcha(sid)
+    this.getCaptcha()
   },
   methods: {
     async submit () {
@@ -118,23 +110,37 @@ export default {
         }
       })
       this.loading = false
-      if (res.code === 200) {
-        console.log(res)
+      if (res && res.code === 0) {
+        const { token, maxAge, userInfo } = res.data
+        const tokenInfo = {
+          token,
+          expireTime: Date.now() + maxAge
+        }
+        // token 存储到 localStorage 中
+        localStorage.setItem('tokenInfo', JSON.stringify(tokenInfo))
+        localStorage.setItem('userInfo', JSON.stringify(userInfo))
+        this.$store.commit('saveUserInfo', userInfo)
+        this.$store.commit('saveToken', tokenInfo)
+        this.$router.push({
+          name: 'Home'
+        })
       } else {
-        this.errorMessage = res.message
+        this.errorMessage = res.message || 'Login Error'
       }
     },
-    getCaptcha (sid) {
-      request.getCode({
+    async getCaptcha () {
+      if (!this.sid) {
+        const sid = uuidv4()
+        this.$store.commit('setSid', sid)
+      }
+      const res = await request.getCode({
         params: {
-          sid
-        }
-      }).then(res => {
-        // status 是 http 状态码
-        if (res.code === 200) {
-          this.verificateSvg = res.data
+          sid: this.sid
         }
       })
+      if (res.code === 200) {
+        this.verificateSvg = res.data
+      }
     }
   }
 }
@@ -173,6 +179,7 @@ export default {
   background: #F6F8FA;
   padding: 24px;
   border-radius: 6px;
+  box-shadow: 0px 1px 2px #dfe2e6, 0px 2px 8px #dfe2e6;
 
   .error {
     position: absolute;
@@ -191,6 +198,7 @@ export default {
   border-radius: 6px;
   text-align: center;
   margin-top: 16px;
+  box-shadow: 0px 1px 2px #edf0f3, 0px 2px 8px #edf0f3;
 }
 
 .login-form {

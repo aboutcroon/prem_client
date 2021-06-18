@@ -5,11 +5,19 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    sid: ''
+    sid: '',
+    token: null,
+    userInfo: null
   },
   mutations: {
     setSid (state, payload) {
       state.sid = payload
+    },
+    saveToken (state, payload) {
+      state.token = payload
+    },
+    saveUserInfo (state, payload) {
+      state.userInfo = payload
     }
   },
   actions: {

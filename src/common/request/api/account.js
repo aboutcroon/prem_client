@@ -10,6 +10,12 @@ export const login = {
   title: '登录'
 }
 
+export const logout = {
+  url: '/api/logout',
+  method: 'POST',
+  title: '退出登录'
+}
+
 export const forget = {
   url: '/api/forget',
   method: 'POST',

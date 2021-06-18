@@ -28,9 +28,20 @@
           Moments
         </div>
       </div>
-      <div class="flex-y" style="margin-right: 20px;">
-        <div class="item flex-center">
-          Login
+      <div v-if="userInfo" class="flex-y" :style="{ marginRight: userInfo ? '60px' : '20px' }">
+        <a-popover title="Welcome">
+          <template slot="content">
+            <p class="pop-item">Profile</p>
+            <p @click="logout" class="pop-item">Sign Out</p>
+          </template>
+          <div class="item flex-center">
+            {{ userInfo.username }}
+          </div>
+        </a-popover>
+      </div>
+      <div v-else class="flex-y" style="margin-right: 20px;">
+        <div class="item flex-center" @click="$router.push({ name: 'Login' })">
+          Sign In
         </div>
         <div class="item flex-center">
           Sign Up
@@ -53,14 +64,43 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import request from '../../common/request'
 export default {
-
+  name: 'Header',
+  computed: {
+    ...mapState(['userInfo'])
+  },
+  methods: {
+    async logout () {
+      const res = await request.logout()
+      console.log(res)
+      if (res.code === 0) {
+        localStorage.removeItem('tokenInfo')
+        localStorage.removeItem('userInfo')
+        this.$store.commit('saveUserInfo', null)
+        this.$store.commit('saveToken', null)
+        this.$router.push({
+          name: 'Login'
+        })
+      } else {
+        console.log(res.message || 'Logout fail')
+      }
+    }
+  }
 }
 </script>
+<style lang="less">
+  .pop-item {
+    cursor: pointer;
 
+    &:hover {
+      color: #8d2929;
+    }
+  }
+</style>
 <style lang="less" scoped>
 .header {
-
   .icon {
     width: 115px;
     height: 50px;
